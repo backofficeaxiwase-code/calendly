@@ -105,12 +105,11 @@
         // 【重要】ユーザーに本名を入力してもらうため、お名前・電話・メールはあえて連動させません
         // 必要に応じて Calendly の設定でこれらを必須項目にしてください
 
-        // 照合用情報（LINE IDとLINE名をセット）
-        // 【重要】Calendlyの質問順序に合わせてセット先を変更します
-        // a1 = 電話番号 (Calendly側で1番目の追加質問) -> 空のままにしてユーザーに入力させる
-        // a2 = 管理コード (Calendly側で2番目の追加質問) -> ここにIDと名前をセット
-        const adminInfo = `ID:${userId} / Name:${displayName}`;
-        url.searchParams.set("a2", adminInfo);
+        // 照合用情報（LINE IDのみをセット）
+        // 【セキュリティ対策】記号や名前を含めず、IDのみを送ることで
+        // Calendly の自動予約防止（ボット検知）を回避しやすくします。
+        // 名前はサーバー側（GAS）で自動取得します。
+        url.searchParams.set("a2", userId);
 
         const finalUrl = url.toString();
 
