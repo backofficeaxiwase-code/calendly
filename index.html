@@ -82,8 +82,8 @@
 
   <script>
     // ====== 設定エリア ======
-    const LIFF_ID = "2008961462-h2x2jyiD"; // 後ほど書き換えてください
-    const CALENDLY_URL = "https://calendly.com/backofficeax-iwase/new-meeting"; // 後ほど書き換えてください
+    const LIFF_ID = "YOUR_LIFF_ID"; // 後ほど書き換えてください
+    const CALENDLY_URL = "https://calendly.com/YOUR_PAGE"; // 後ほど書き換えてください
     // ======================
 
     async function main() {
@@ -105,10 +105,9 @@
         // 【重要】ユーザーに本名を入力してもらうため、お名前・電話・メールはあえて連動させません
         // 必要に応じて Calendly の設定でこれらを必須項目にしてください
 
-        // 照合用情報（LINE名とLINE ID）をカスタム質問（a1）にセット
-        // ※Calendly側で「管理用（変更しないでください）」等のラベルの質問を作成し
-        // 　その質問を「非表示」に設定しておくとスマートです
-        const adminInfo = `Name:${displayName} / ID:${userId}`;
+        // 照合用情報（LINE IDとLINE名をセット）
+        // IDを先に配置し、名前を後にすることでユーザーによる改変を防ぎやすくします
+        const adminInfo = `ID:${userId} / Name:${displayName}`;
         url.searchParams.set("a1", adminInfo);
 
         const finalUrl = url.toString();
