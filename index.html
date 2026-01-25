@@ -106,9 +106,11 @@
         // 必要に応じて Calendly の設定でこれらを必須項目にしてください
 
         // 照合用情報（LINE IDとLINE名をセット）
-        // IDを先に配置し、名前を後にすることでユーザーによる改変を防ぎやすくします
+        // 【重要】Calendlyの質問順序に合わせてセット先を変更します
+        // a1 = 電話番号 (Calendly側で1番目の追加質問) -> 空のままにしてユーザーに入力させる
+        // a2 = 管理コード (Calendly側で2番目の追加質問) -> ここにIDと名前をセット
         const adminInfo = `ID:${userId} / Name:${displayName}`;
-        url.searchParams.set("a1", adminInfo);
+        url.searchParams.set("a2", adminInfo);
 
         const finalUrl = url.toString();
 
