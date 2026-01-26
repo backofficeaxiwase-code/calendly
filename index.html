@@ -82,8 +82,8 @@
 
   <script>
     // ====== 設定エリア ======
-    const LIFF_ID = "2008965223-8YvAgad2"; // 後ほど書き換えてください
-    const CALENDLY_URL = "https://calendly.com/backofficeax-iwase/new-meeting-clone"; // 後ほど書き換えてください
+    const LIFF_ID = "YOUR_LIFF_ID"; // ← ここを書き換え
+    const CALENDLY_URL = "https://calendly.com/YOUR_PAGE"; // ← ここを書き換え
     // ======================
 
     async function main() {
@@ -97,18 +97,15 @@
 
         const profile = await liff.getProfile();
         const userId = profile.userId;
-        const displayName = profile.displayName;
 
         // Calendly URL構築
         const url = new URL(CALENDLY_URL);
 
-        // 【重要】ユーザーに本名を入力してもらうため、お名前・電話・メールはあえて連動させません
-        // 必要に応じて Calendly の設定でこれらを必須項目にしてください
-
-        // 照合用情報（LINE IDのみをセット）
-        // 【セキュリティ対策】記号や名前を含めず、IDのみを送ることで
-        // Calendly の自動予約防止（ボット検知）を回避しやすくします。
-        // 名前はサーバー側（GAS）で自動取得します。
+        // 【セキュリティ & 利便性対応】
+        // a1: 電話番号に「+81」をプリセット
+        url.searchParams.set("a1", "+81");
+        
+        // a2: 管理用としてIDのみをセット（名前等を含まないシンプルな形式）
         url.searchParams.set("a2", userId);
 
         const finalUrl = url.toString();
@@ -116,7 +113,7 @@
         // 保険：ボタン
         document.getElementById("redirect-btn").href = finalUrl;
 
-        // ★0.5秒だけ待ってから遷移
+        // 遷移
         setTimeout(() => {
           window.location.href = finalUrl;
         }, 500);
@@ -124,15 +121,9 @@
       } catch (e) {
         console.error(e);
         document.getElementById("status-text").textContent = "エラーが発生しました";
-        // エラー内容を表示 (デバッグ用)
-        document.getElementById("sub-text").innerHTML =
-          `<small style="color:red">${e.toString()}</small><br><br>` +
-          "設定されたURL: " + CALENDLY_URL;
         document.getElementById("loader").style.display = "none";
-
         const btn = document.getElementById("redirect-btn");
-        btn.href = CALENDLY_URL; // ひとまず設定値そのままでリンク
-        btn.innerText = "直接アクセスを試す";
+        btn.href = CALENDLY_URL;
         btn.style.display = "inline-block";
       }
     }
